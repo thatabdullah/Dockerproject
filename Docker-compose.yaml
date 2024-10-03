@@ -1,0 +1,8 @@
+services:
+  postgres:
+    image: postgres
+
+  web:
+    build: .
+    ports:
+      - 5432
