@@ -1,14 +1,13 @@
 from flask import Flask
 import psycopg2
-
-
+import os
 app = Flask(__name__)
 def get_db_connection():
     conn = psycopg2.connect(
-    host="db",
-    database="test_db",
-    user="postgres",
-    password="password"
+        host=os.environ.get("POSTGRES_HOST"),
+        database=os.environ.get("POSTGRES_DB"),
+        user=os.environ.get("POSTGRES_USER"),
+        password=os.environ.get("POSTGRES_PASSWORD")
 )
     return conn
 @app.route('/')
@@ -20,5 +19,6 @@ def index():
     cur.close()
     conn.close()
     return f'Database connected: {db_version}'
+
 if __name__ == '__main__':
-    app.run()
+    app.run(host='0.0.0.0')
